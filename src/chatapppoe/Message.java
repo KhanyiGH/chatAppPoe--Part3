@@ -61,6 +61,9 @@ private ArrayList<String> messageIDs = new ArrayList<>();
 
     public void recordSent(String messageID, String hash, String recipient, String text) {
         totalMessages++;
+        sentMessages.add(text);
+        messageHashes.add(hash);
+        messageIDs.add(messageID);
         sentLog = sentLog + "Message ID: " + messageID + "\n"
                 + "Message Hash: " + hash + "\n"
                 + "Recipient: " + recipient + "\n"
