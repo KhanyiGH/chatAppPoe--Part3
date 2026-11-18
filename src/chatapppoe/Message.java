@@ -13,7 +13,9 @@ import java.io.IOException;
 public class Message {
 
     private int totalMessages = 0;
-    
+   
+    private ArrayList<String> storedIDs = new ArrayList<>();
+private ArrayList<String> storedHashes = new ArrayList<>();
     private ArrayList<String> sentMessages = new ArrayList<>();
 private ArrayList<String> disregardedMessages = new ArrayList<>();
 private ArrayList<String> storedMessages = new ArrayList<>();
@@ -88,6 +90,8 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
 public void recordStored(String messageID, String hash, String recipient, String text) {
     storedMessages.add(text);
     storedRecipients.add(recipient);
+    storedIDs.add(messageID);
+    storedHashes.add(hash);
     messageHashes.add(hash);
     messageIDs.add(messageID);
 }
@@ -102,6 +106,8 @@ public void loadStoredFromJson(String filePath) {
             messageHashes.add(getValue(line, "messageHash"));
             storedRecipients.add(getValue(line, "recipient"));
             storedMessages.add(getValue(line, "message"));
+            storedIDs.add(getValue(line, "messageID"));
+            storedHashes.add(getValue(line, "messageHash"));
         }
     } catch (IOException e) {
         System.out.println("Could not read messages file: " + e.getMessage());
@@ -135,5 +141,13 @@ public String getLongestMessage() {
         }
     }
     return longest;
+} 
+ public String searchByMessageID(String id) {
+    for (int i = 0; i < storedIDs.size(); i++) {
+        if (storedIDs.get(i).equals(id)) {
+            return "Recipient: " + storedRecipients.get(i) + " | Message: " + storedMessages.get(i);
+        }
+    }
+    return "Message ID not found.";
 }
 }
