@@ -77,4 +77,13 @@ private ArrayList<String> messageIDs = new ArrayList<>();
     public String printMessages() {
         return sentLog;
     }
+    public void recordDisregarded(String messageID, String hash, String text) {
+    disregardedMessages.add(text);
+}
+
+public void recordStored(String messageID, String hash, String recipient, String text) {
+    storedMessages.add(text);
+    messageHashes.add(hash);
+    messageIDs.add(messageID);
+}
 }
