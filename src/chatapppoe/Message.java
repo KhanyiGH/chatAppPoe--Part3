@@ -150,4 +150,13 @@ public String getLongestMessage() {
     }
     return "Message ID not found.";
 }
+ public ArrayList<String> searchByRecipient(String recipient) {
+    ArrayList<String> results = new ArrayList<>();
+    for (int i = 0; i < storedRecipients.size(); i++) {
+        if (storedRecipients.get(i).equals(recipient)) {
+            results.add(storedMessages.get(i));
+        }
+    }
+    return results;
+}
 }

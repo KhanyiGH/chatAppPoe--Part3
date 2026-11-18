@@ -123,6 +123,9 @@ break;
         System.out.println("Longest stored message: " + msg.getLongestMessage());
         System.out.println("Enter a message ID to search:");
     System.out.println(msg.searchByMessageID(scanner.nextLine()));
+    System.out.println("Enter a recipient to search:");
+    String searchRecipient = scanner.nextLine();
+    System.out.println(msg.searchByRecipient(searchRecipient));
         break;
     }
 } 
