@@ -50,6 +50,7 @@ int numMessages = Integer.parseInt(scanner.nextLine());
 int sentCount = 0;
 int totalSent = 0;
 Message msg = new Message();
+msg.loadStoredFromJson("messages.json");
      
 int choice = 0;
 

@@ -2,6 +2,9 @@ package chatapppoe;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  *
@@ -16,6 +19,7 @@ private ArrayList<String> disregardedMessages = new ArrayList<>();
 private ArrayList<String> storedMessages = new ArrayList<>();
 private ArrayList<String> messageHashes = new ArrayList<>();
 private ArrayList<String> messageIDs = new ArrayList<>();
+private ArrayList<String> storedRecipients = new ArrayList<>();
 
     private String sentLog = "";
 
@@ -83,7 +87,35 @@ private ArrayList<String> messageIDs = new ArrayList<>();
 
 public void recordStored(String messageID, String hash, String recipient, String text) {
     storedMessages.add(text);
+    storedRecipients.add(recipient);
     messageHashes.add(hash);
     messageIDs.add(messageID);
+}
+public void loadStoredFromJson(String filePath) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            if (line.trim().isEmpty()) {
+                continue;
+            }
+            messageIDs.add(getValue(line, "messageID"));
+            messageHashes.add(getValue(line, "messageHash"));
+            storedRecipients.add(getValue(line, "recipient"));
+            storedMessages.add(getValue(line, "message"));
+        }
+    } catch (IOException e) {
+        System.out.println("Could not read messages file: " + e.getMessage());
+    }
+}
+
+private String getValue(String line, String key) {
+    String marker = "\"" + key + "\": \"";
+    int start = line.indexOf(marker);
+    if (start == -1) {
+        return "";
+    }
+    start += marker.length();
+    int end = line.indexOf("\"", start);
+    return line.substring(start, end);
 }
 }
