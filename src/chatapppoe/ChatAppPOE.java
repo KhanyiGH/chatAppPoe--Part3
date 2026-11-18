@@ -126,6 +126,10 @@ break;
     System.out.println("Enter a recipient to search:");
     String searchRecipient = scanner.nextLine();
     System.out.println(msg.searchByRecipient(searchRecipient));
+    
+      System.out.println("Enter a message hash to delete:");
+     String hashToDelete = scanner.nextLine();
+     System.out.println(msg.deleteByHash(hashToDelete));
         break;
     }
 } 

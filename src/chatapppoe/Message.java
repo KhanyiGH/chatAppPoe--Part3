@@ -159,4 +159,17 @@ public String getLongestMessage() {
     }
     return results;
 }
+    public String deleteByHash(String hash) {
+    for (int i = 0; i < storedHashes.size(); i++) {
+        if (storedHashes.get(i).equals(hash)) {
+            String deleted = storedMessages.get(i);
+            storedMessages.remove(i);
+            storedRecipients.remove(i);
+            storedIDs.remove(i);
+            storedHashes.remove(i);
+            return "Message: \"" + deleted + "\" successfully deleted.";
+        }
+    }
+    return "Message hash not found.";
+}
 }
