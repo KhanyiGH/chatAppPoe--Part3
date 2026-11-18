@@ -58,6 +58,7 @@ while (choice != 3) {
     System.out.println("1) Send Messages");
     System.out.println("2) Show recently sent messages");
     System.out.println("3) Quit");
+    System.out.println("4) Stored Messages");
     choice = Integer.parseInt(scanner.nextLine());
 
     switch (choice) {
@@ -117,6 +118,9 @@ break;
             break;
         default:
             System.out.println("Invalid option.");
+            case 4:
+    System.out.println("Stored Messages coming soon.");
+    break;
     }
 } 
   
