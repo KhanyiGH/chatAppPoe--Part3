@@ -172,4 +172,17 @@ public String getLongestMessage() {
     }
     return "Message hash not found.";
 }
+       public String getStoredReport() {
+    if (storedMessages.isEmpty()) {
+        return "No stored messages.";
+    }
+    String report = "";
+    for (int i = 0; i < storedMessages.size(); i++) {
+        report = report + "Message Hash: " + storedHashes.get(i) + "\n"
+                + "Message ID: " + storedIDs.get(i) + "\n"
+                + "Recipient: " + storedRecipients.get(i) + "\n"
+                + "Message: " + storedMessages.get(i) + "\n\n";
+    }
+    return report;
+}
 }

@@ -130,6 +130,8 @@ break;
       System.out.println("Enter a message hash to delete:");
      String hashToDelete = scanner.nextLine();
      System.out.println(msg.deleteByHash(hashToDelete));
+     
+      System.out.println(msg.getStoredReport());
         break;
     }
 } 
