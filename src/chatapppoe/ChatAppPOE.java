@@ -119,8 +119,8 @@ break;
         default:
             System.out.println("Invalid option.");
             case 4:
-    System.out.println("Stored Messages coming soon.");
-    break;
+        msg.displayStoredSenderRecipient(firstName);
+        break;
     }
 } 
   

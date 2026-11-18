@@ -118,4 +118,13 @@ private String getValue(String line, String key) {
     int end = line.indexOf("\"", start);
     return line.substring(start, end);
 }
+public void displayStoredSenderRecipient(String sender) {
+    if (storedMessages.isEmpty()) {
+        System.out.println("No stored messages.");
+        return;
+    }
+    for (int i = 0; i < storedMessages.size(); i++) {
+        System.out.println("Sender: " + sender + " | Recipient: " + storedRecipients.get(i));
+    }
+}
 }
