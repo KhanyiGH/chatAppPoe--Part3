@@ -127,4 +127,13 @@ public void displayStoredSenderRecipient(String sender) {
         System.out.println("Sender: " + sender + " | Recipient: " + storedRecipients.get(i));
     }
 }
+public String getLongestMessage() {
+    String longest = "";
+    for (int i = 0; i < storedMessages.size(); i++) {
+        if (storedMessages.get(i).length() > longest.length()) {
+            longest = storedMessages.get(i);
+        }
+    }
+    return longest;
+}
 }

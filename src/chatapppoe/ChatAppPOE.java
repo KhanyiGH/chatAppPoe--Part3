@@ -118,8 +118,9 @@ break;
             break;
         default:
             System.out.println("Invalid option.");
-            case 4:
+           case 4:
         msg.displayStoredSenderRecipient(firstName);
+        System.out.println("Longest stored message: " + msg.getLongestMessage());
         break;
     }
 } 
