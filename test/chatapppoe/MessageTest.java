@@ -87,4 +87,12 @@ public class MessageTest {
         assertEquals("Did you get the cake?", m.getSentMessages().get(0));
         assertEquals("It is dinner time!", m.getSentMessages().get(1));
     } 
+          @Test
+    public void testLongestMessage() {
+        Message m = new Message();
+        m.recordStored("0000000002", "00:0:WHEREYOUTIME", "+27838884567", "Where are you? You are late! I have asked you to be on time.");
+        m.recordStored("0000000005", "00:1:OKYOU", "+27838884567", "Ok, I am leaving without you.");
+
+        assertEquals("Where are you? You are late! I have asked you to be on time.", m.getLongestMessage());
+    }
 }
