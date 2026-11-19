@@ -95,4 +95,12 @@ public class MessageTest {
 
         assertEquals("Where are you? You are late! I have asked you to be on time.", m.getLongestMessage());
     }
+          @Test
+    public void testSearchByMessageID() {
+        Message m = new Message();
+        m.recordStored("0838884567", "00:0:ITTIME", "+27838884567", "It is dinner time!");
+
+        assertEquals("Recipient: +27838884567 | Message: It is dinner time!",
+                m.searchByMessageID("0838884567"));
+    }
 }
