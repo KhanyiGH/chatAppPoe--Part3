@@ -78,4 +78,13 @@ public class MessageTest {
         m.recordSent("0012345678", "00:0:HITONIGHT", "+27718693002", "Hi Mike, can you join us for dinner tonight?");
         assertEquals(1, m.returnTotalMessages());
     }
+           @Test
+    public void testSentMessagesArrayPopulated() {
+        Message m = new Message();
+        m.recordSent("0000000001", "00:0:DIDCAKE", "+27834557896", "Did you get the cake?");
+        m.recordSent("0000000004", "00:1:ITTIME", "0838884567", "It is dinner time!");
+
+        assertEquals("Did you get the cake?", m.getSentMessages().get(0));
+        assertEquals("It is dinner time!", m.getSentMessages().get(1));
+    } 
 }

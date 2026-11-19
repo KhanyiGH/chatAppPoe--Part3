@@ -185,4 +185,7 @@ public String getLongestMessage() {
     }
     return report;
 }
+        public ArrayList<String> getSentMessages() {
+    return sentMessages;
+}
 }
