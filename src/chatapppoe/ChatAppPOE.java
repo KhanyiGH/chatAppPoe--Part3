@@ -118,21 +118,39 @@ break;
             break;
         default:
             System.out.println("Invalid option.");
-           case 4:
-        msg.displayStoredSenderRecipient(firstName);
-        System.out.println("Longest stored message: " + msg.getLongestMessage());
-        System.out.println("Enter a message ID to search:");
-    System.out.println(msg.searchByMessageID(scanner.nextLine()));
-    System.out.println("Enter a recipient to search:");
-    String searchRecipient = scanner.nextLine();
-    System.out.println(msg.searchByRecipient(searchRecipient));
-    
-      System.out.println("Enter a message hash to delete:");
-     String hashToDelete = scanner.nextLine();
-     System.out.println(msg.deleteByHash(hashToDelete));
-     
-      System.out.println(msg.getStoredReport());
-        break;
+           case 4: {
+    String subChoice = "";
+    while (!subChoice.equals("g")) {
+        System.out.println("a) Display sender and recipient of stored messages");
+        System.out.println("b) Display the longest stored message");
+        System.out.println("c) Search for a message ID");
+        System.out.println("d) Search for messages by recipient");
+        System.out.println("e) Delete a message using its hash");
+        System.out.println("f) Display report of stored messages");
+        System.out.println("g) Back to main menu");
+        subChoice = scanner.nextLine().toLowerCase();
+
+        if (subChoice.equals("a")) {
+            msg.displayStoredSenderRecipient(firstName);
+        } else if (subChoice.equals("b")) {
+            System.out.println("Longest stored message: " + msg.getLongestMessage());
+        } else if (subChoice.equals("c")) {
+            System.out.println("Enter a message ID to search:");
+            System.out.println(msg.searchByMessageID(scanner.nextLine()));
+        } else if (subChoice.equals("d")) {
+            System.out.println("Enter a recipient to search:");
+            System.out.println(msg.searchByRecipient(scanner.nextLine()));
+        } else if (subChoice.equals("e")) {
+            System.out.println("Enter a message hash to delete:");
+            System.out.println(msg.deleteByHash(scanner.nextLine()));
+        } else if (subChoice.equals("f")) {
+            System.out.println(msg.getStoredReport());
+        } else if (!subChoice.equals("g")) {
+            System.out.println("Invalid option.");
+        }
+    }
+    break;
+}
     }
 } 
   
