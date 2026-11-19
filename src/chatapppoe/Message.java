@@ -10,6 +10,13 @@ import java.io.IOException;
  *
  * @author Khanyi
  */
+
+/**
+ * Handles everything to do with messages: checking recipient numbers, message IDs
+ * and lengths, creating hashes, and storing messages in the sent, disregarded and
+ * stored arrays. It also reads stored messages from messages.json and supports
+ * searching, deleting and reporting.
+ */
 public class Message {
 
     private int totalMessages = 0;
@@ -25,10 +32,12 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
 
     private String sentLog = "";
 
+    /** Returns true if the message ID is 10 characters or fewer. */
     public boolean checkMessageID(String messageID) {
         return messageID.length() <= 10;
     }
 
+    /** Checks the number starts with "+" (international code) and is at most 13 characters. */ 
     public String checkRecipientCell(String cellNumber) {
         if (cellNumber.startsWith("+") && cellNumber.length() <= 13) {
             return "Cell phone number successfully captured.";
@@ -37,6 +46,7 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
         }
     }
 
+   /** Builds the hash: first 2 digits of the ID, message number, then first and last word, in capitals. */
     public String createMessageHash(String messageID, int messageNumber, String message) {
         String[] words = message.split(" ");
         String firstWord = words[0].replaceAll("[^a-zA-Z]", "");
@@ -47,6 +57,7 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
         return hash.toUpperCase();
     }
 
+     /** Generates a random 10-digit message ID. */
     public String generateMessageID() {
         Random random = new Random();
         String id = "";
@@ -56,6 +67,7 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
         return id;
     }
 
+    /** Checks the message is 250 characters or fewer; otherwise says how many characters are too many. */
     public String checkMessageLength(String message) {
         if (message.length() <= 250) {
             return "Message ready to send.";
@@ -65,6 +77,7 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
         }
     }
 
+     /** Records a sent message: adds its text, hash and ID to the arrays and adds it to the sent log. */    
     public void recordSent(String messageID, String hash, String recipient, String text) {
         totalMessages++;
         sentMessages.add(text);
@@ -76,18 +89,23 @@ private ArrayList<String> storedRecipients = new ArrayList<>();
                 + "Message: " + text + "\n\n";
     }
 
+    /** Returns how many messages have been sent. */
     public int returnTotalMessages() {
         return totalMessages;
     }
 
+   /** Returns the log of all sent messages as text. */    
     public String printMessages() {
         return sentLog;
     }
+    
+    /** Records a disregarded message by adding its text to the disregarded array. */
     public void recordDisregarded(String messageID, String hash, String text) {
     disregardedMessages.add(text);
 }
 
-public void recordStored(String messageID, String hash, String recipient, String text) {
+    /** Records a stored message: adds its text, recipient, ID and hash to the stored arrays. */
+    public void recordStored(String messageID, String hash, String recipient, String text) {
     storedMessages.add(text);
     storedRecipients.add(recipient);
     storedIDs.add(messageID);
@@ -95,7 +113,16 @@ public void recordStored(String messageID, String hash, String recipient, String
     messageHashes.add(hash);
     messageIDs.add(messageID);
 }
-public void loadStoredFromJson(String filePath) {
+     /**
+ * Reads messages.json one line at a time and fills the stored arrays
+ * (ID, hash, recipient and message). Each line holds one message.
+ *
+ * Attribution: the BufferedReader/FileReader approach for reading a text file
+ * line by line follows the standard Java I/O documentation (Oracle Java Docs).
+ * This method was written with help from Claude (Anthropic's AI assistant),
+ * November 2026, and adapted to this project's file format.
+ */
+    public void loadStoredFromJson(String filePath) {
     try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
         String line;
         while ((line = reader.readLine()) != null) {
@@ -114,7 +141,8 @@ public void loadStoredFromJson(String filePath) {
     }
 }
 
-private String getValue(String line, String key) {
+   /** Finds the value for the given key in one JSON line, e.g. the text after "recipient": " up to the closing quote. */
+ private String getValue(String line, String key) {
     String marker = "\"" + key + "\": \"";
     int start = line.indexOf(marker);
     if (start == -1) {
@@ -124,6 +152,7 @@ private String getValue(String line, String key) {
     int end = line.indexOf("\"", start);
     return line.substring(start, end);
 }
+   /** Displays the sender and recipient of every stored message. */
 public void displayStoredSenderRecipient(String sender) {
     if (storedMessages.isEmpty()) {
         System.out.println("No stored messages.");
@@ -133,6 +162,7 @@ public void displayStoredSenderRecipient(String sender) {
         System.out.println("Sender: " + sender + " | Recipient: " + storedRecipients.get(i));
     }
 }
+     /** Returns the longest stored message, or an empty string if there are none. */
 public String getLongestMessage() {
     String longest = "";
     for (int i = 0; i < storedMessages.size(); i++) {
@@ -142,7 +172,8 @@ public String getLongestMessage() {
     }
     return longest;
 } 
- public String searchByMessageID(String id) {
+   /** Searches the stored IDs and returns the matching recipient and message, or "Message ID not found." */ 
+public String searchByMessageID(String id) {
     for (int i = 0; i < storedIDs.size(); i++) {
         if (storedIDs.get(i).equals(id)) {
             return "Recipient: " + storedRecipients.get(i) + " | Message: " + storedMessages.get(i);
@@ -150,7 +181,9 @@ public String getLongestMessage() {
     }
     return "Message ID not found.";
 }
- public ArrayList<String> searchByRecipient(String recipient) {
+  
+   /** Returns a list of all stored messages sent to the given recipient. */
+public ArrayList<String> searchByRecipient(String recipient) {
     ArrayList<String> results = new ArrayList<>();
     for (int i = 0; i < storedRecipients.size(); i++) {
         if (storedRecipients.get(i).equals(recipient)) {
@@ -159,7 +192,8 @@ public String getLongestMessage() {
     }
     return results;
 }
-    public String deleteByHash(String hash) {
+     /** Finds the stored message with the given hash and removes it from the stored arrays. */    
+public String deleteByHash(String hash) {
     for (int i = 0; i < storedHashes.size(); i++) {
         if (storedHashes.get(i).equals(hash)) {
             String deleted = storedMessages.get(i);
@@ -172,7 +206,8 @@ public String getLongestMessage() {
     }
     return "Message hash not found.";
 }
-       public String getStoredReport() {
+         /** Builds a report with the hash, ID, recipient and message of every stored message. */
+   public String getStoredReport() {
     if (storedMessages.isEmpty()) {
         return "No stored messages.";
     }
@@ -185,7 +220,8 @@ public String getLongestMessage() {
     }
     return report;
 }
-        public ArrayList<String> getSentMessages() {
+       /** Returns the sent messages array (used by the unit tests). */
+       public ArrayList<String> getSentMessages() {
     return sentMessages;
 }
 }
