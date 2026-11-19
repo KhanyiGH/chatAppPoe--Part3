@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -102,5 +103,17 @@ public class MessageTest {
 
         assertEquals("Recipient: +27838884567 | Message: It is dinner time!",
                 m.searchByMessageID("0838884567"));
+    }
+         @Test
+    public void testSearchByRecipient() {
+        Message m = new Message();
+        m.recordStored("0000000002", "00:0:WHEREYOUTIME", "+27838884567", "Where are you? You are late! I have asked you to be on time.");
+        m.recordStored("0000000005", "00:1:OKYOU", "+27838884567", "Ok, I am leaving without you.");
+
+        ArrayList<String> results = m.searchByRecipient("+27838884567");
+
+        assertEquals(2, results.size());
+        assertEquals("Where are you? You are late! I have asked you to be on time.", results.get(0));
+        assertEquals("Ok, I am leaving without you.", results.get(1));
     }
 }
